@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.OutStoreMapper">
+
+    <resultMap id="BaseResultMap" type="net.wanho.po.OutStore">
+            <id property="outsId" column="outs_id" jdbcType="INTEGER"/>
+            <result property="productId" column="product_id" jdbcType="INTEGER"/>
+            <result property="storeId" column="store_id" jdbcType="INTEGER"/>
+            <result property="tallyId" column="tally_id" jdbcType="INTEGER"/>
+            <result property="outPrice" column="out_price" jdbcType="DECIMAL"/>
+            <result property="outNum" column="out_num" jdbcType="INTEGER"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="isOut" column="is_out" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        outs_id,product_id,store_id,
+        tally_id,out_price,out_num,
+        create_by,create_time,is_out
+    </sql>
+    <select id="getOutStorePageList" resultType="net.wanho.vo.OutStoreVo">
+       select os.outs_id,os.product_id,os.store_id,
+        os.tally_id,os.out_price,os.out_num,p.product_name,s.store_name,ui.user_code,uf.user_name "tally_name",
+        os.create_by,os.create_time,os.is_out from out_store os
+       inner join product p on p.product_id=os.product_id
+       inner join store s on s.store_id=os.store_id
+       inner join user_info ui on ui.user_id=os.create_by
+       inner join user_info uf on uf.user_id=os.tally_id
+    </select>
+</mapper>

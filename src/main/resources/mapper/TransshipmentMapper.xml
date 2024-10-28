@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.TransshipmentMapper">
+
+    <resultMap id="BaseResultMap" type="net.wanho.po.Transshipment">
+            <id property="transId" column="trans_id" jdbcType="INTEGER"/>
+            <result property="sourceStoreId" column="source_store_id" jdbcType="INTEGER"/>
+            <result property="sourceProductId" column="source_product_id" jdbcType="INTEGER"/>
+            <result property="targetStoreId" column="target_store_id" jdbcType="INTEGER"/>
+            <result property="targetProductId" column="target_product_id" jdbcType="INTEGER"/>
+            <result property="transNum" column="trans_num" jdbcType="INTEGER"/>
+            <result property="auditState" column="audit_state" jdbcType="CHAR"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        trans_id,source_store_id,source_product_id,
+        target_store_id,target_product_id,trans_num,
+        audit_state,create_by,create_time
+    </sql>
+    <select id="getTeansshipmentPageList" resultType="net.wanho.vo.TransshipmentVo">
+        select t.*,sp.product_name source_product_name,
+              tp.product_name target_product_name,
+              ss.store_name source_store_name,
+              ts.store_name target_store_name,
+              ui.user_code create_name
+            from transshipment t left join product sp on sp.product_id=t.source_product_id
+            left join product tp on tp.product_id=t.target_product_id
+            left join store ss on ss.store_id=t.source_store_id
+            left join store ts on ts.store_id=t.target_store_id
+            left join user_info ui on ui.user_id=t.create_by
+            ${ew.customSqlSegment}
+    </select>
+</mapper>

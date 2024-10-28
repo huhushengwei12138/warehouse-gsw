@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.ProductMapper">
+
+    <resultMap id="BaseResultMap" type="net.wanho.po.Product">
+            <id property="productId" column="product_id" jdbcType="INTEGER"/>
+            <result property="storeId" column="store_id" jdbcType="INTEGER"/>
+            <result property="brandId" column="brand_id" jdbcType="INTEGER"/>
+            <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+            <result property="productNum" column="product_num" jdbcType="VARCHAR"/>
+            <result property="productInvent" column="product_invent" jdbcType="INTEGER"/>
+            <result property="typeId" column="type_id" jdbcType="INTEGER"/>
+            <result property="supplyId" column="supply_id" jdbcType="INTEGER"/>
+            <result property="placeId" column="place_id" jdbcType="INTEGER"/>
+            <result property="unitId" column="unit_id" jdbcType="INTEGER"/>
+            <result property="introduce" column="introduce" jdbcType="VARCHAR"/>
+            <result property="upDownState" column="up_down_state" jdbcType="CHAR"/>
+            <result property="inPrice" column="in_price" jdbcType="DECIMAL"/>
+            <result property="salePrice" column="sale_price" jdbcType="DECIMAL"/>
+            <result property="memPrice" column="mem_price" jdbcType="DECIMAL"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="updateBy" column="update_by" jdbcType="INTEGER"/>
+            <result property="imgs" column="imgs" jdbcType="VARCHAR"/>
+            <result property="productDate" column="product_date" jdbcType="TIMESTAMP"/>
+            <result property="suppDate" column="supp_date" jdbcType="TIMESTAMP"/>
+            <result property="threshold" column="threshold" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        product_id,store_id,brand_id,
+        product_name,product_num,product_invent,
+        type_id,supply_id,place_id,
+        unit_id,introduce,up_down_state,
+        in_price,sale_price,mem_price,
+        create_time,update_time,create_by,
+        update_by,imgs,product_date,
+        supp_date,threshold
+    </sql>
+    <select id="getProductPageList" resultType="net.wanho.vo.ProductVO">
+        select p.*,b.brand_name,s.store_name,pt.type_name,u.unit_name,su.supply_name,pl.place_name
+                from product p inner join brand b on b.brand_id=p.brand_id
+                                                inner join store s on s.store_id=p.store_id
+                                                inner join product_type pt on pt.type_id=p.type_id
+                                                inner join unit u on u.unit_id=p.unit_id
+                                                inner join supply su on su.supply_id=p.supply_id
+                                                inner join place pl on pl.place_id=p.place_id
+            ${ew.customSqlSegment}
+
+    </select>
+    <select id="getProductById" resultType="net.wanho.vo.ProductVO">
+        select p.*,b.brand_name,s.store_name,pt.type_name,u.unit_name,su.supply_name,pl.place_name
+        from product p inner join brand b on b.brand_id=p.brand_id
+                       inner join store s on s.store_id=p.store_id
+                       inner join product_type pt on pt.type_id=p.type_id
+                       inner join unit u on u.unit_id=p.unit_id
+                       inner join supply su on su.supply_id=p.supply_id
+                       inner join place pl on pl.place_id=p.place_id
+        where p.product_id=#{id}
+    </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.InStoreMapper">
+
+    <resultMap id="BaseResultMap" type="net.wanho.po.InStore">
+            <id property="insId" column="ins_id" jdbcType="INTEGER"/>
+            <result property="storeId" column="store_id" jdbcType="INTEGER"/>
+            <result property="productId" column="product_id" jdbcType="INTEGER"/>
+            <result property="inNum" column="in_num" jdbcType="INTEGER"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="isIn" column="is_in" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ins_id,store_id,product_id,
+        in_num,create_by,create_time,
+        is_in
+    </sql>
+    <select id="getInstorePageList" resultType="net.wanho.vo.InStoreVO">
+        select i.ins_id,i.store_id,i.product_id,
+               i.in_num,i.create_by,i.create_time,
+               i.is_in,p.product_name,s.store_name,p.in_price,ui.user_code
+        from in_store i inner join product p on i.product_id=p.product_id
+                        inner join store s on s.store_id=p.store_id
+                        inner join user_info ui on i.create_by=ui.user_id
+
+            ${ew.customSqlSegment}
+    </select>
+</mapper>

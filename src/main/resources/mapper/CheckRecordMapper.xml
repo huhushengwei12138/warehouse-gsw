@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.wanho.mapper.CheckRecordMapper">
+
+    <resultMap id="BaseResultMap" type="net.wanho.po.CheckRecord">
+            <id property="recordId" column="record_id" jdbcType="INTEGER"/>
+            <result property="productId" column="product_id" jdbcType="INTEGER"/>
+            <result property="storeId" column="store_id" jdbcType="INTEGER"/>
+            <result property="batchId" column="batch_id" jdbcType="INTEGER"/>
+            <result property="checkState" column="check_state" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        record_id,product_id,store_id,
+        batch_id,check_state
+    </sql>
+</mapper>
